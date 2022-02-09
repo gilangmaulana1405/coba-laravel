@@ -7,6 +7,12 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
+
+    // public function __construct()
+    // {
+    //     $this->middleware('guest');
+    // }
+
     public function index()
     {
         return view('login.index', [
@@ -34,5 +40,16 @@ class LoginController extends Controller
         
         // jika percobaan gagal
          return back()->with(['failed' => 'Login failed! Try it again']);
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+ 
+        $request->session()->invalidate();
+    
+        $request->session()->regenerateToken();
+    
+        return redirect('/');
     }
 }
