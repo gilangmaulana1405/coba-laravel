@@ -43,13 +43,22 @@ class DashboardPostController extends Controller
      */
     public function store(Request $request)
     {
+        
         // validasi data field dalam form
         $validatedData = $request->validate([
             'title' => 'required|max:255',
             'slug' => 'required|unique:posts',
             'category_id' => 'required',
+            'image' => 'image|file|max:1024',
             'body' => 'required'
         ]);
+
+        //cek jika tidak masukin gambar, maka gunakan gambar default api unsplash
+        if($request->file('image'))
+        {
+            $validatedData['image'] = $request->file('image')->store('post-images');
+        }
+        
 
         // tentukan user_id dan tambahkan excerptnya
         $validatedData['user_id'] = auth()->user()->id;

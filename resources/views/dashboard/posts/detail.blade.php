@@ -15,14 +15,19 @@
                     <button class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this post?')"><span data-feather="trash"></span> Delete</button>
              </form>
 
-               <img src="https://source.unsplash.com/1200x400?{{ $post->category->name }}"alt="$post->category->name" class="img-fluid mt-3">
+             @if($post->image)
+              <div style="max-height:400px; overflow:hidden;">
+                <!-- jika ada file image didalam tabel --> 
+                  <img src="{{ asset('storage/'.$post->image) }}" alt="{{ $post->category->name }}" class="img-fluid mt-3">
+              </div>
+             @else
+              <!-- jika tidak ada, maka gunakan image default -->
+                <img src="https://source.unsplash.com/1200x400?{{ $post->category->name }}"alt="$post->category->name" class="img-fluid mt-3">
+             @endif
 
                <article class="my-3 fs-5">
                  <p class="mt-3">{!! $post->body !!}</p>
                </article>
-
-                <!-- <a href="/posts" class="btn btn-primary"><span data-feather="arrow-left-circle"></span> Back to post</a> -->
-             
         </div>
     </div>
 </div>
