@@ -18,7 +18,7 @@
                  <p class="mt-3">{!! $post->body !!}</p>
                </article>
 
-                <a href="/posts" class="btn btn-primary">Back to post</a>
+                    <a href="/posts" class="btn btn-primary"><span data-feather="arrow-left-circle"></span> Back to post</a>
              
         </div>
     </div>
