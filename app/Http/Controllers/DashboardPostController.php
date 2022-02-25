@@ -7,6 +7,7 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use \Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class DashboardPostController extends Controller
 {
@@ -53,7 +54,7 @@ class DashboardPostController extends Controller
             'body' => 'required'
         ]);
 
-        //cek jika tidak masukin gambar, maka gunakan gambar default api unsplash
+        //cek jika tidak ada gambar yang dimasukkan, maka gunakan gambar default api unsplash
         if($request->file('image'))
         {
             $validatedData['image'] = $request->file('image')->store('post-images');
@@ -110,6 +111,7 @@ class DashboardPostController extends Controller
          $rules = [
             'title' => 'required|max:255',
             'category_id' => 'required',
+            'image' => 'image|file|max:1024',
             'body' => 'required'
         ];
 
@@ -119,6 +121,20 @@ class DashboardPostController extends Controller
         }
 
         $validatedData = $request->validate($rules);
+
+        // validasi jika tidak ada gambar yang dimasukkan, maka gunakan gambar default api unsplash
+        if($request->file('image'))
+        {
+        //    jika ada gambar lama
+            if($request->oldImage)
+            {
+                // hapus gambar lama
+                Storage::delete($request->oldImage);
+            }
+
+            // upload gambar baru
+            $validatedData['image'] = $request->file('image')->store('post-images');
+        }
 
         $validatedData['user_id'] = auth()->user()->id;
         $validatedData['excerpt'] =  Str::limit(strip_tags($request->body), 200);
@@ -136,6 +152,13 @@ class DashboardPostController extends Controller
      */
     public function destroy(Post $post)
     {
+        // jika ada gambar lama
+        if($post->image){
+            // hapus gambar lama
+            Storage::delete($post->image);
+        }
+
+        
          // simpan ke database
         Post::destroy($post->id);
 

@@ -8,7 +8,7 @@
 
 <div class="col-lg-8">
     <!-- diarahkan ke store method di controller langsung tanpa ubah route di web.php -->
-     <form method="post" action="/dashboard/posts/{{ $post->slug }}">
+     <form method="post" action="/dashboard/posts/{{ $post->slug }}" enctype="multipart/form-data">
          @method('put')
          @csrf
         <div class="mb-3">
@@ -21,6 +21,7 @@
             </div>
             @enderror
         </div>
+
         <div class="mb-3">
             <label for="slug" class="form-label">Slug</label>
             <input type="text" class="form-control @error('slug') is-invalid @enderror" id="slug" name="slug" value="{{ old('slug', $post->slug) }}">
@@ -30,6 +31,7 @@
             </div>
             @enderror
         </div>
+
         <div class="mb-3">
             <label for="category" class="form-label">Category</label>
             <select class="form-select" name="category_id">
@@ -39,6 +41,26 @@
                 @endforeach()
             </select>
         </div>
+
+        <div class="mb-3">
+            <label for="image" class="form-label">Post Image</label>
+            <input type="hidden" name="oldImage" value="{{ $post->image }}">
+            @if($post->image)
+            <!-- image yang baru -->
+                <img src="{{ asset('storage/'.$post->image) }}" class="img-preview img-fluid mb-3 col-sm-6 d-block">
+            @else
+            <!-- image kosong -->
+                <img class="img-preview img-fluid mb-3 col-sm-6">
+            @endif
+            
+            <input class="form-control @error('image') is-invalid @enderror" type="file" id="image" name="image" onchange="previewImage()">
+             @error('image')
+             <div class="invalid-feedback">
+                {{ $message }}
+            </div>
+            @enderror
+        </div>
+
         <div class="mb-3">
             <label for="body" class="form-label">Body</label>
             @error('body')
@@ -52,6 +74,7 @@
 </div>
 
 <script>
+    // slug otomatis
     const title = document.querySelector('#title');
     const slug = document.querySelector('#slug');
 
@@ -66,6 +89,27 @@
     document.addEventListener('trix-file-accept', function(event) {
         event.preventDefault();
     });
+    // end slug otomatis
+
+
+     // image preview
+    function previewImage(){
+        // mengambil input file image
+        const image = document.querySelector('#image');
+        // mengambil gambar yang diupload
+        const imgPreview = document.querySelector('.img-preview');
+        // membuat image display block
+        imgPreview.style.display = 'block';
+        
+
+        const ofReader = new FileReader();
+        ofReader.readAsDataURL(image.files[0]);
+
+        ofReader.onload = function(event){
+            imgPreview.src = event.target.result;
+        }
+    }
+    // end of image preview
 
 </script>
 

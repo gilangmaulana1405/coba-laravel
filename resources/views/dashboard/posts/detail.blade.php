@@ -8,7 +8,7 @@
              <h2 class="mb-4">{{ $post->title }}</h2>   
 
              <a href="/dashboard/posts" class="btn btn-success  btn-sm"><span data-feather="arrow-left"></span> Back to all my posts</a>
-             <a href="/dashboard/posts" class="btn btn-warning  btn-sm"><span data-feather="edit"></span> Edit</a>
+             <a href="/dashboard/posts/{{ $post->slug }}/edit" class="btn btn-warning  btn-sm"><span data-feather="edit"></span> Edit</a>
              <form action="/dashboard/posts/{{ $post->slug}}" method="post" class="d-inline">
                     @method('delete')
                     @csrf
