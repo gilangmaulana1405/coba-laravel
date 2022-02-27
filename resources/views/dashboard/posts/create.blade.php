@@ -84,7 +84,6 @@
     // end slug otomatis
 
     
-
     // image preview
     function previewImage(){
         // mengambil input file image
