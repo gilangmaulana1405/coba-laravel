@@ -1,3 +1,7 @@
+.nav-color {
+    background-image: linear-gradient(to bottom right, #0070ff, #3b14eb);
+}
+
 .form-signin .form-floating:focus-within {
     z-index: 2;
 }

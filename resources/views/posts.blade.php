@@ -12,9 +12,9 @@
             <form action="/posts">
 
             @if(request('category'))
-                 <input type="hidden" name="category" value=" {{ request('category') }}">
+                <input type="hidden" name="category" value=" {{ request('category') }}">
             @elseif(request('author'))
-            <input type="hidden" name="author" value=" {{ request('author') }}">
+                <input type="hidden" name="author" value=" {{ request('author') }}">
             @else
             @endif
 

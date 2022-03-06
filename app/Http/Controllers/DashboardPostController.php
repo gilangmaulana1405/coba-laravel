@@ -60,7 +60,6 @@ class DashboardPostController extends Controller
             $validatedData['image'] = $request->file('image')->store('post-images');
         }
         
-
         // tentukan user_id dan tambahkan excerptnya
         $validatedData['user_id'] = auth()->user()->id;
         $validatedData['excerpt'] =  Str::limit(strip_tags($request->body), 200);
@@ -80,7 +79,7 @@ class DashboardPostController extends Controller
      */
     public function show(Post $post)
     {
-        return view('dashboard.posts.detail', [
+        return view('dashboard.posts.show', [
             'post' => $post
         ]);
     }

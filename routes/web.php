@@ -2,6 +2,7 @@
 
 
 use App\Models\Category;
+use App\Models\Post;
 
 use Illuminate\Support\Facades\Route;
 
@@ -24,7 +25,11 @@ use App\Http\Controllers\AdminCategoryController;
 
 Route::get('/', function () {
     return view('home', [
-        'title' => 'Home'
+        'title' => 'Home',
+        'posts' => Post::all(),
+        'categories' => Category::all(),
+        'active' => 'posts',
+        'posts' => Post::latest()->filter(request(['search', 'category', 'author']))->paginate(7)->withQueryString()
     ]);
 });
 
@@ -85,9 +90,22 @@ Route::get('/dashboard',function(){
 })->middleware('auth'); 
 
 Route::get('/dashboard/posts/checkSlug', [DashboardPostController::class, 'checkSlug'])->middleware('auth');
-Route::resource('/dashboard/posts', DashboardPostController::class)->middleware('auth');
+Route::get('/dashboard/categories/checkSlug', [AdminCategoryController::class, 'checkSlug'])->middleware('auth');
 
-Route::resource('/dashboard/categories', AdminCategoryController::class)->except('show');
+// Route::resource('/dashboard/posts', DashboardPostController::class)->middleware('auth');
+
+// Route::resource('/dashboard/categories', AdminCategoryController::class)->middleware('auth');
+
+// Route::resource([
+//     '/dashboard/posts' => DashboardPostController::class,
+//     '/dashboard/categories' => AdminCategoryController::class
+// ]);
+
+Route::resources([
+    '/dashboard/posts' => DashboardPostController::class,
+    '/dashboard/categories' => AdminCategoryController::class,
+]);
+
 
 
 

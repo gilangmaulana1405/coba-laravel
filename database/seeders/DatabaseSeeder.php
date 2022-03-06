@@ -20,37 +20,21 @@ class DatabaseSeeder extends Seeder
         
 
         //membuat seeder manual
-        User::create([
-            'name' => 'Gilang Maulana',
-            'username' => 'gilang',
-            'email' => 'gilang123@gmail.com',
-            'password' => bcrypt('123')
-        ]);
-
-        //  User::create([
-        //     'name' => 'Hanna Athaya',
-        //     'email' => 'hann.ath@gmail.com',
+        // User::create([
+        //     'name' => 'Gilang Maulana',
+        //     'username' => 'gilang',
+        //     'email' => 'gilang123@gmail.com',
         //     'password' => bcrypt('123')
         // ]);
-
-
+        
         //user
         User::factory(5)->create();
         
-        // //category
+        //category
         Category::create([
             'name' => 'Web Programming',
             'slug' => 'web-programming',
-        ]);
-
-        Category::create([
-            'name' => 'Mobile Apps',
-            'slug' => 'mobile-apps',
-        ]);
-
-        Category::create([
-            'name' => 'Personal',
-            'slug' => 'personal',
+            'description' => 'Web Programming adalah sebuah bidang ilmu yang mempelajari tentang pemrograman web.'
         ]);
 
         //post
