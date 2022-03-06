@@ -157,7 +157,6 @@ class DashboardPostController extends Controller
             Storage::delete($post->image);
         }
 
-        
          // simpan ke database
         Post::destroy($post->id);
 

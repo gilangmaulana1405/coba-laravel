@@ -79,7 +79,9 @@ class AdminCategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        // 
+        return view('dashboard.categories.edit', [
+            'category' => $category
+        ]); 
     }
 
     /**
@@ -91,7 +93,22 @@ class AdminCategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        
+         $rules = [
+            'name' => 'required|max:255',
+            'description' => 'required'
+        ];
+
+        // validasi slug
+        if ($request->slug != $category->slug) {
+            $rules['slug'] = 'required|unique:categories';
+        }
+
+        $validatedData = $request->validate($rules);
+
+        // update data berdasarkan id
+        Category::where('id', $category->id)->update($validatedData);
+        return redirect('/dashboard/categories')->with('success', 'Category has been updated!');
     }
 
     /**
@@ -102,7 +119,11 @@ class AdminCategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+         // simpan ke database
+        Category::destroy($category->id);
+
+        // arahkan ke halaman dashboard/posts serta kirimkan validasi sukses
+        return redirect('/dashboard/categories')->with('success', 'Category has been deleted!');
     }
 
     public function checkSlug(Request $request)

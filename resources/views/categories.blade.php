@@ -4,7 +4,7 @@
 
     @section('container')
 
- <h1 class="mb-5"> {{ $title }} </h1> 
+ <h1 class="mb-3"> {{ $title }} </h1> 
 
     
     <div class="container">
@@ -12,7 +12,7 @@
 
         @foreach($categories as $category)
 
-            <div class="col-md-4">
+            <div class="col-md-4 mt-3">
                 <a href="/posts?category={{ $category->slug }}">
                     <div class="card bg-dark text-white">
                         <img src="https://source.unsplash.com/500x400?{{ $category->name }}" class="card-img" alt="$category->name">
